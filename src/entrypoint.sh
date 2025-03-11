@@ -13,7 +13,7 @@
 #-----------------------------------------------------------------------------
 # Global configuration
 #-----------------------------------------------------------------------------
-VERSION="1.0.0"
+VERSION="1.0.1"
 CACERT_SYSTEM_PATH='/usr/share/ca-certificates'
 
 # Set default values
@@ -178,7 +178,7 @@ function get_dockerhub_repository_statistics {
     echo "  usage: get_dockerhub_repository_statistics <repository>" >&2
     return
   fi
-  timestamp=$(date --iso-8601=seconds)
+  timestamp=$(date -Iseconds)
   repo_stats=$(curl -s "https://hub.docker.com/v2/repositories/${repository}")
   echo ${repo_stats} | jq -Mc '. += {"_timestamp":"'${timestamp}'"}'
 
