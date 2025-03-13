@@ -7,14 +7,14 @@
 # Author: Michael Oberdorf
 # Date:   2025-03-11
 # Last changed by: Michael Oberdorf
-# Last changed at: 2025-03-11
+# Last changed at: 2025-03-13
 ##############################################################################
 
 #-----------------------------------------------------------------------------
 # Global configuration
 #-----------------------------------------------------------------------------
-VERSION="1.0.1"
-CACERT_SYSTEM_PATH='/usr/share/ca-certificates'
+VERSION="1.0.2"
+CACERT_SYSTEM_PATH='/etc/ssl/certs'
 
 # Set default values
 if [ -z "${MQTT_SERVER}" ]; then
@@ -180,7 +180,7 @@ function get_dockerhub_repository_statistics {
   fi
   timestamp=$(date -Iseconds)
   repo_stats=$(curl -s "https://hub.docker.com/v2/repositories/${repository}")
-  echo ${repo_stats} | jq -Mc '. += {"_timestamp":"'${timestamp}'"}'
+  echo ${repo_stats} | jq -Mc '. += {"timestamp":"'${timestamp}'"}' | jq -Mc 'del(.full_description)'
 
 }
 
@@ -237,6 +237,7 @@ validate_input_parameters
 
 for repository in ${REPOSITORIES}
 do
+  echo "Get statistics of: ${repository}"
   result=$(get_dockerhub_repository_statistics ${repository})
   publish_result "${result}"
 done
