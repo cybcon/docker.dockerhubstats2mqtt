@@ -1,7 +1,7 @@
-FROM alpine:3.21.3
+FROM alpine:3.23.2
 
 LABEL maintainer="Michael Oberdorf IT-Consulting <info@oberdorf-itc.de>"
-LABEL site.local.program.version="1.0.2"
+LABEL site.local.program.version="1.0.3"
 
 ENV MQTT_SERVER=localhost \
     MQTT_PORT=1883 \
@@ -12,11 +12,11 @@ ENV MQTT_SERVER=localhost \
 
 RUN apk upgrade --available --no-cache --update \
     && apk add --no-cache --update \
-       bash=5.2.37-r0 \
-       ca-certificates=20241121-r1 \
-       curl=8.12.1-r0 \
-       jq=1.7.1-r0 \
-       mosquitto-clients=2.0.20-r0
+       bash=5.3.3-r1 \
+       ca-certificates=20251003-r0 \
+       curl=8.17.0-r1 \
+       jq=1.8.1-r0 \
+       mosquitto-clients=2.0.22-r0
 
 COPY --chown=root:root /src /
 
