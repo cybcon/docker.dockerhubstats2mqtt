@@ -24,7 +24,8 @@ Container image: [DockerHub](https://hub.docker.com/r/oitc/dockerhubstats2mqtt)
 
 # Supported tags and respective `Dockerfile` links
 
-* [`latest`, `1.0.3`](https://github.com/cybcon/docker.dockerhubstats2mqtt/blob/v1.0.3/Dockerfile)
+* [`latest`, `1.1.0`](https://github.com/cybcon/docker.dockerhubstats2mqtt/blob/v1.1.0/Dockerfile)
+* [`1.0.3`](https://github.com/cybcon/docker.dockerhubstats2mqtt/blob/v1.0.3/Dockerfile)
 * [`1.0.2`](https://github.com/cybcon/docker.dockerhubstats2mqtt/blob/v1.0.2/Dockerfile)
 * [`1.0.1`](https://github.com/cybcon/docker.dockerhubstats2mqtt/blob/v1.0.1/Dockerfile)
 * [`1.0.0`](https://github.com/cybcon/docker.dockerhubstats2mqtt/blob/v1.0.0/Dockerfile)
@@ -55,6 +56,7 @@ The container grab the configuration via environment variables.
 | `MQTT_TOPIC` | The MQTT topic to send the docker hub statistics to | **MANDATORY** | |
 | `MQTT_RETAIN`| Set the retain flag when publishing the docker hub statistics to MQTT topic | **OPTIONAL** | `false` |
 | `REPOSITORIES` | A whitespace separated list of docker hub repositories where to collect the statistics | **MANDATORY** | |
+| `MQTT_TOPIC_REPO_EXTENSION` | Use the docker hub repository name as MQTT topic appendix | **OPTIONAL** | `false` |
 
 # Docker compose configuration
 
@@ -81,7 +83,7 @@ I would appreciate a small donation to support the further development of my ope
 
 # License
 
-Copyright (c) 2025 Michael Oberdorf IT-Consulting
+Copyright (c) 2025-2026 Michael Oberdorf IT-Consulting
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
