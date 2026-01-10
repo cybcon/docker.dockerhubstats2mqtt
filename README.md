@@ -52,9 +52,9 @@ The container grab the configuration via environment variables.
 | `MQTT_USER` | The MQTT username for MQTT authentication | **OPTIONAL** | |
 | `MQTT_PASSWORD` | The MQTT password for MQTT authentication | **OPTIONAL** | |
 | `MQTT_PASSWORD_FILE` | The filepath where the MQTT password is stored for MQTT authentication | **OPTIONAL** | |
-| `MQTT_TOPIC` | The MQTT topic to send the speedtest results to | **MANDATORY** | |
-| `MQTT_RETAIN`| Set the retain flag when publishing the speedtest result to MQTT topic | **OPTIONAL** | `false` |
-| `REPOSITORIES` | A whitespace separated list of dockerhub repositories where to collect the statistics | **MANDATORY** | |
+| `MQTT_TOPIC` | The MQTT topic to send the docker hub statistics to | **MANDATORY** | |
+| `MQTT_RETAIN`| Set the retain flag when publishing the docker hub statistics to MQTT topic | **OPTIONAL** | `false` |
+| `REPOSITORIES` | A whitespace separated list of docker hub repositories where to collect the statistics | **MANDATORY** | |
 
 # Docker compose configuration
 
