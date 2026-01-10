@@ -18,6 +18,7 @@ services:
       MQTT_TOPIC: com/docker/hub/repositories/metrics
       REPOSITORIES: oitc/dockerhubstats2mqtt oitc/modbus-server
       REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+      MQTT_TOPIC_REPO_EXTENSION: false
     secrets:
       - mqtt_password
     tmpfs:
