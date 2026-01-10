@@ -7,13 +7,13 @@
 # Author: Michael Oberdorf
 # Date:   2025-03-11
 # Last changed by: Michael Oberdorf
-# Last changed at: 2025-12-28
+# Last changed at: 2026-01-10
 ##############################################################################
 
 #-----------------------------------------------------------------------------
 # Global configuration
 #-----------------------------------------------------------------------------
-VERSION="1.0.3"
+VERSION="1.1.0"
 CACERT_SYSTEM_PATH='/etc/ssl/certs'
 
 # Set default values
@@ -31,6 +31,9 @@ if [ -z "${MQTT_TLS_no_hostname_validation}" ]; then
 fi
 if [ -z "${MQTT_RETAIN}" ]; then
   MQTT_RETAIN='false'
+fi
+if [ -z "${MQTT_TOPIC_REPO_EXTENSION}" ]; then
+  MQTT_TOPIC_REPO_EXTENSION='false'
 fi
 MQTT_PASSWORD=''
 
@@ -163,6 +166,13 @@ function validate_input_parameters {
     echo "ERROR: REPOSITORIES not defined. This parameter is mandatory!" >&2
     exit 1
   fi
+
+  if [ -z "$(validate_boolean ${MQTT_TOPIC_REPO_EXTENSION})" ]; then
+    echo "ERROR: Environment variable 'MQTT_TOPIC_REPO_EXTENSION' needs to be 'true' or 'false' (but is ${MQTT_TOPIC_REPO_EXTENSION})!" >&2
+    exit 1
+  else
+    MQTT_TOPIC_REPO_EXTENSION=$(validate_boolean ${MQTT_TOPIC_REPO_EXTENSION})
+  fi
 }
 
 #-----------------------------------------------------------------------------
@@ -187,9 +197,12 @@ function get_dockerhub_repository_statistics {
 #-----------------------------------------------------------------------------
 # publish_result
 # @desc: connect to MQTT server and publish the given information
+# @param: string, repository name
 # @param: string, data to publish to MQTT
 #-----------------------------------------------------------------------------
 function publish_result {
+  repo="${1}"
+  shift
   data="${@}"
 
   CREDENTIALS=''
@@ -199,6 +212,11 @@ function publish_result {
   RETAIN=''
   if [ "${MQTT_RETAIN}" == "true" ]; then
     RETAIN='--retain'
+  fi
+
+  mqtt_topic=${MQTT_TOPIC}
+  if [ "${MQTT_TOPIC_REPO_EXTENSION}" == "true" ]; then
+    mqtt_topic=$(echo "${MQTT_TOPIC}/${repo}" | sed -e 's%//%/%g')
   fi
 
   TLS=''
@@ -223,7 +241,7 @@ function publish_result {
     TLS="${INSECURE} ${CACERT} --tls-version tlsv1.2"
   fi
 
-  echo "${data}" |  mosquitto_pub --host ${MQTT_SERVER} --port ${MQTT_PORT} ${CREDENTIALS} --topic ${MQTT_TOPIC} ${TLS} ${RETAIN} --stdin-file
+  echo "${data}" |  mosquitto_pub --host ${MQTT_SERVER} --port ${MQTT_PORT} ${CREDENTIALS} --topic ${mqtt_topic} ${TLS} ${RETAIN} --stdin-file
 }
 
 
@@ -239,7 +257,7 @@ for repository in ${REPOSITORIES}
 do
   echo "Get statistics of: ${repository}"
   result=$(get_dockerhub_repository_statistics ${repository})
-  publish_result "${result}"
+  publish_result ${repository} "${result}"
 done
 
 echo "Dockerhub repository statistics collector v${VERSION} stopped"
