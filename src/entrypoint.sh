@@ -7,13 +7,13 @@
 # Author: Michael Oberdorf
 # Date:   2025-03-11
 # Last changed by: Michael Oberdorf
-# Last changed at: 2026-01-10
+# Last changed at: 2026-06-28
 ##############################################################################
 
 #-----------------------------------------------------------------------------
 # Global configuration
 #-----------------------------------------------------------------------------
-VERSION="1.1.0"
+VERSION="1.2.0"
 CACERT_SYSTEM_PATH='/etc/ssl/certs'
 
 # Set default values
